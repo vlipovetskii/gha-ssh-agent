@@ -1,0 +1,19 @@
+# name: 'Hello World'
+# description: 'Greet someone'
+inputs:
+  ssh-private-key:  # id of input
+    description: 'SSH private key: as a rule ${{ vars.SSH_AUTH_SOCK }}'
+    required: true
+    # default: '???'
+#outputs:
+#  random-number:
+#    description: "Random number"
+#    value: ${{ steps.random-number-generator.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    - name: Setup SSH key
+      run: |
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-add - <<< "${{ inputs.ssh-private-key }}"
+      shell: bash
