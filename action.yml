@@ -16,14 +16,14 @@ runs:
   steps:
     - name: Setup SSH key
       run: |
-        # ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
         # PRB:
         # ssh-agent works by setting up an environment variable (SSH_AUTH_SOCK) pointing to a socket file, 
         # plus starting a background process that manages the keys.
         # When your composite action step finishes, the shell process (and its environment variables) are gone.
-        # TRY:
-        eval "$(ssh-agent -s)"
-        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
-        echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
+        # WO:
+#        eval "$(ssh-agent -s)"
+#        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+#        echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
         ssh-add - <<< "${{ inputs.ssh-private-key }}"
       shell: bash
