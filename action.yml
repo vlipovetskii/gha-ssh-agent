@@ -4,7 +4,7 @@ inputs:
   ssh-private-key:  # id of input
     # PRB: vlipovetskii/gha-ssh-agent/main/action.yml (Line: 5, Col: 18): Unrecognized named-value: 'vars'. Located at position 1 within expression: vars.SSH_AUTH_SOCK
     # WO:  \$ ...
-    description: 'SSH private key: as a rule \${{ vars.SSH_AUTH_SOCK }}'
+    description: 'SSH private key: as a rule vars.SSH_AUTH_SOCK'
     required: true
     # default: '???'
 #outputs:
