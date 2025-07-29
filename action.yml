@@ -1,5 +1,3 @@
-# name: 'Hello World'
-# description: 'Greet someone'
 inputs:
   ssh-private-key:  # id of input
     # PRB: vlipovetskii/gha-ssh-agent/main/action.yml (Line: 5, Col: 18): Unrecognized named-value: 'vars'. Located at position 1 within expression: vars.SSH_AUTH_SOCK
@@ -7,23 +5,11 @@ inputs:
     description: 'SSH private key: as a rule secrets.SSH_PRIVATE_KEY'
     required: true
     # default: '???'
-#outputs:
-#  random-number:
-#    description: "Random number"
-#    value: ${{ steps.random-number-generator.outputs.random-number }}
 runs:
   using: "composite"
   steps:
     - name: Setup SSH key
       run: |
         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        # PRB:
-        # ssh-agent works by setting up an environment variable (SSH_AUTH_SOCK) pointing to a socket file, 
-        # plus starting a background process that manages the keys.
-        # When your composite action step finishes, the shell process (and its environment variables) are gone.
-        # WO:
-        # eval "$(ssh-agent -s)"
-        # echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
-        # echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
         ssh-add - <<< "${{ inputs.ssh-private-key }}"
       shell: bash
