@@ -12,7 +12,10 @@ runs:
       run: |
         # Externally defined SSH_AUTH_SOCK
         # ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        ssh-agent
+        # ssh-agent
+        # PRB: Starts agent, prints exports. ❌ No env vars set
+        # WO: Starts agent and sets env vars. ✅ env vars set
+        eval "$(ssh-agent -s)"
         echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
         # echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
         ssh-add - <<< "${{ inputs.ssh-private-key }}"
